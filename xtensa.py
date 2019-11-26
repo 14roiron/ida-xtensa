@@ -580,7 +580,7 @@ class XtensaProcessor(processor_t):
 
         insn.itype = instr.id
 
-        operands = [insn[i] for i in xrange(1, 6)]
+        operands = [insn[i] for i in range(1, 6)]
         for o in operands:
             o.type = o_void
         instr.parseOperands(operands, op, insn)
@@ -588,7 +588,7 @@ class XtensaProcessor(processor_t):
         return insn.size
 
     def emu(self, insn):
-        for i in xrange(1, 6):
+        for i in range(1, 6):
             op = insn[i]
             if op.type == o_void:
                 break
@@ -644,7 +644,7 @@ class XtensaProcessor(processor_t):
 
     def notify_out_insn(self, ctx):
         ctx.out_mnemonic()
-        for i in xrange(1, 6):
+        for i in range(1, 6):
             if ctx.insn[i].type == o_void:
                 break
 
