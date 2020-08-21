@@ -384,7 +384,7 @@ class XtensaProcessor(processor_t):
         ("mula.dd.hl",    0x2a0004, 0xffbfbf, Instr.fmt_RRR_mul_dd ),
         ("mula.dd.hh",    0x2b0004, 0xffbfbf, Instr.fmt_RRR_mul_dd ),
         ("mull",   0x820000, 0xff000f, Instr.fmt_RRR ),
-        ("mulsh",  0xb10000, 0xff000f, Instr.fmt_RRR ),
+        ("mulsh",  0xb20000, 0xff000f, Instr.fmt_RRR ),
         ("mul16s", 0xd10000, 0xff000f, Instr.fmt_RRR ),
         ("mul16u", 0xc10000, 0xff000f, Instr.fmt_RRR ),
         ("muluh",  0xa20000, 0xff000f, Instr.fmt_RRR ),
