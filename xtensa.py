@@ -413,6 +413,7 @@ class XtensaProcessor(processor_t):
         ("round.s",0x8a0000, 0xff000f, Instr.fmt_RRR_ceil ),
         ("rfe",    0x003000, 0xffffff, Instr.fmt_NONE, CF_STOP ),
         ("rfi",    0x003010, 0xfff0ff, Instr.fmt_RRR_1imm, CF_STOP ),
+        ("rsil",   0x006000, 0xfff00f, Instr.fmt_RRR_immr ),
         ("rsr.prid",      0x03eb00, 0xffff0f, Instr.fmt_RSR_spec ),
         ("rsr.epc1",      0x03b100, 0xffff0f, Instr.fmt_RSR_spec ),
         ("rsr.epc2",      0x03b200, 0xffff0f, Instr.fmt_RSR_spec ),
@@ -648,7 +649,7 @@ class XtensaProcessor(processor_t):
             if ctx.insn[i].type == o_void:
                 break
 
-            if i > 0:
+            if i > 1:
                 ctx.out_symbol(',')
             ctx.out_char(' ')
             ctx.out_one_operand(i)
