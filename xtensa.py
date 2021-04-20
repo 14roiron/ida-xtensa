@@ -38,7 +38,7 @@ except ImportError:
         pass
     dt_byte = dt_word = dt_dword = None
     PR_SEGS = PR_DEFSEG32 = PR_RNAMESOK = PR_ADJSEGS = PRN_HEX = PR_USE32 = 0
-    ASH_HEXF3 = ASD_DECF0 = ASO_OCTF1 = ASB_BINF3 = AS_NOTAB = AS_ASCIIC = AS_ASCIIZ = 0
+    ASH_HEXF3 = ASD_DECF0 = ASO_OCTF1 = ASB_BINF3 = AS_ASCIIC = AS_ASCIIZ = 0
     CF_CALL = CF_JUMP = CF_STOP = 0
     o_void = o_reg = o_imm = o_displ = o_near = None
 
@@ -83,7 +83,7 @@ class Operand:
         if self.xlate:
             val = self.xlate(val)
 
-        ret.dtyp = self.dt
+        ret.dtype = self.dt
         if self.type == Operand.REG:
             ret.type = o_reg
             ret.reg = val if val < 16 else 16
@@ -211,7 +211,8 @@ class XtensaProcessor(processor_t):
     instruc_start = 0
 
     assembler = {
-        "flag": ASH_HEXF3 | ASD_DECF0 | ASO_OCTF1 | ASB_BINF3 | AS_NOTAB,
+        "flag": ASH_HEXF3 | ASD_DECF0 | ASO_OCTF1 | ASB_BINF3
+            | AS_ASCIIC | AS_ASCIIZ,
         "uflag": 0,
         "name": "GNU assembler",
         "origin": ".org",
@@ -593,7 +594,7 @@ class XtensaProcessor(processor_t):
             if op.type == o_void:
                 break
             elif op.type == o_mem:
-                insn.create_op_data(op.addr, 0, op.dtyp)
+                insn.create_op_data(op.addr, 0, op.dtype)
                 insn.add_dref(op.addr, 0, dr_R)
             elif op.type == o_near:
                 features = insn.get_canon_feature()
@@ -605,7 +606,7 @@ class XtensaProcessor(processor_t):
 
         feature = insn.get_canon_feature()
         if feature & CF_JUMP:
-            remember_problem(Q_jumps, insn.ea)
+            remember_problem(PR_JUMP, insn.ea)
         if not feature & CF_STOP:
             insn.add_cref(insn.ea + insn.size, 0, fl_F)
         return True
@@ -628,7 +629,7 @@ class XtensaProcessor(processor_t):
                 ctx.out_tagon(COLOR_ERROR)
                 ctx.out_long(op.addr, 16)
                 ctx.out_tagoff(COLOR_ERROR)
-                remember_problem(Q_noName, ctx.insn.ea)
+                remember_problem(PR_NONAME, ctx.insn.ea)
         elif op.type == o_displ:
             ctx.out_register(self.reg_names[op.phrase])
             ctx.out_line(", ")
